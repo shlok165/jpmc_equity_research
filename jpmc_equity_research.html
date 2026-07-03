@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPMorgan Chase & Co. (JPM) — Equity Research Initiation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1F3A;
+    --steel:#1D4E89;
+    --steel-light:#3E6BA6;
+    --paper:#F6F4EF;
+    --paper-raised:#FFFFFF;
+    --rule:#D8D2C4;
+    --brass:#8A6D3B;
+    --brass-bg:#F1E9D8;
+    --rust:#9B3A34;
+    --rust-bg:#F6E7E5;
+    --ink-soft:#4A5568;
+    --green:#3E6E52;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    color:var(--ink);
+    margin:0 0 .4em 0;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ===== Layout shell ===== */
+  .shell{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:0;
+  }
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr;}
+    .toc{display:none;}
+  }
+
+  /* ===== TOC sidebar ===== */
+  .toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:32px 18px 32px 24px;
+    border-right:1px solid var(--rule);
+  }
+  .toc .firm{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.02em;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .toc .desk{
+    font-size:11px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin-bottom:24px;
+  }
+  .toc a{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    text-decoration:none;
+    padding:6px 0;
+    border-bottom:1px solid transparent;
+    transition:color .15s ease;
+  }
+  .toc a:hover{color:var(--steel);}
+  .toc .tnum{
+    color:var(--brass);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    margin-right:6px;
+  }
+
+  /* ===== Main column ===== */
+  .main{padding:0 0 80px 0;}
+  .container{padding:0 40px;}
+  @media (max-width:600px){.container{padding:0 20px;}}
+
+  /* ===== Masthead ===== */
+  .masthead{
+    background:var(--ink);
+    color:#EFEDE6;
+    padding:36px 40px 30px;
+  }
+  @media (max-width:600px){.masthead{padding:28px 20px 24px;}}
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#A9B8CE;
+    margin-bottom:14px;
+  }
+  .masthead h1{
+    color:#fff;
+    font-size:clamp(28px,4vw,40px);
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .masthead .sub{
+    color:#C7CEDB;
+    font-size:14.5px;
+    margin-bottom:24px;
+  }
+  .tombstone{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border-top:1px solid rgba(255,255,255,.18);
+    border-bottom:1px solid rgba(255,255,255,.18);
+  }
+  .stat{
+    padding:14px 22px 14px 0;
+    margin-right:22px;
+    border-right:1px solid rgba(255,255,255,.15);
+    min-width:100px;
+  }
+  .stat:last-child{border-right:none;}
+  .stat .label{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#93A2BB;
+    margin-bottom:4px;
+  }
+  .stat .value{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:19px;
+    font-weight:600;
+    color:#fff;
+  }
+  .rating-badge{
+    display:inline-block;
+    background:var(--brass);
+    color:#fff;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:18px;
+    letter-spacing:.03em;
+    padding:2px 0;
+  }
+
+  /* range indicator */
+  .range-wrap{margin-top:22px;}
+  .range-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:#93A2BB;margin-bottom:8px;}
+  svg.range{width:100%;height:54px;display:block;}
+
+  /* ===== sections ===== */
+  section{
+    padding:38px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  section:last-of-type{border-bottom:none;}
+  .container section{padding:38px 0;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .sec-num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--brass);
+    font-size:13px;
+  }
+  .sec-head h2{font-size:22px;}
+  p{margin:0 0 14px 0;color:#242B38;}
+  .lede{
+    font-size:17px;
+    line-height:1.65;
+    color:var(--ink);
+    border-left:3px solid var(--brass);
+    padding-left:18px;
+    margin-bottom:20px;
+  }
+
+  /* summary grid */
+  .summary-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:28px;
+  }
+  @media (max-width:760px){.summary-grid{grid-template-columns:1fr;}}
+  .callout-card{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    padding:20px 22px;
+  }
+  .callout-card h3{font-size:14px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;color:var(--steel);}
+  .callout-card ul{margin:0;padding-left:18px;}
+  .callout-card li{margin-bottom:8px;font-size:13.5px;color:#2B3242;}
+
+  /* segment cards */
+  .segments{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin:20px 0 8px;
+  }
+  @media (max-width:700px){.segments{grid-template-columns:1fr;}}
+  .segment{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-top:3px solid var(--steel);
+    padding:16px 18px;
+  }
+  .segment .seg-name{font-weight:600;font-size:13.5px;margin-bottom:6px;}
+  .segment .seg-metric{font-family:'IBM Plex Mono', monospace;font-size:20px;color:var(--ink);}
+  .segment .seg-note{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 6px;}
+  caption{text-align:left;font-size:12px;color:var(--ink-soft);margin-bottom:8px;}
+  th,td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--rule);}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);
+  }
+  tbody tr:hover{background:rgba(29,78,137,.05);}
+  tbody tr.highlight td{background:var(--brass-bg);font-weight:600;}
+  .table-note{font-size:11.5px;color:var(--ink-soft);margin-top:-2px;margin-bottom:20px;}
+
+  /* thesis list */
+  .thesis{
+    display:grid;
+    gap:16px;
+    margin-top:16px;
+  }
+  .thesis-item{
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:16px;
+    padding:16px 0;
+    border-top:1px solid var(--rule);
+  }
+  .thesis-item:first-child{border-top:none;}
+  .thesis-num{
+    font-family:'Source Serif 4', serif;
+    font-size:28px;
+    color:var(--brass);
+    font-weight:600;
+    line-height:1;
+  }
+  .thesis-item h3{font-size:15.5px;margin-bottom:6px;}
+  .thesis-item p{margin-bottom:0;font-size:13.8px;}
+
+  /* valuation boxes */
+  .val-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px;}
+  @media (max-width:700px){.val-grid{grid-template-columns:1fr;}}
+  .val-box{background:var(--paper-raised);border:1px solid var(--rule);padding:18px 20px;}
+  .val-box h3{font-size:13.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--steel);margin-bottom:10px;}
+  .val-box .formula{font-family:'IBM Plex Mono', monospace;font-size:13px;background:var(--paper);padding:10px 12px;border-left:3px solid var(--steel-light);margin:10px 0;}
+  .pt-band{
+    margin-top:22px;
+    background:var(--ink);
+    color:#EFEDE6;
+    padding:20px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .pt-band .num{font-family:'IBM Plex Mono', monospace;font-size:26px;color:#fff;font-weight:600;}
+  .pt-band .cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#93A2BB;}
+
+  /* risks */
+  .risk-list{display:grid;gap:10px;margin-top:14px;}
+  .risk{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:14px;
+    padding:12px 16px;
+    background:var(--rust-bg);
+    border-left:3px solid var(--rust);
+    font-size:13.5px;
+  }
+  @media (max-width:600px){.risk{grid-template-columns:1fr;}}
+  .risk .rtag{font-weight:600;color:var(--rust);font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;}
+
+  /* catalysts timeline */
+  .cat-list{margin-top:16px;border-left:2px solid var(--rule);padding-left:20px;}
+  .cat-item{position:relative;padding-bottom:18px;}
+  .cat-item::before{
+    content:'';
+    position:absolute;left:-25px;top:4px;
+    width:9px;height:9px;border-radius:50%;
+    background:var(--steel);
+  }
+  .cat-date{font-family:'IBM Plex Mono', monospace;font-size:12px;color:var(--steel);margin-bottom:2px;}
+  .cat-item p{margin-bottom:0;font-size:13.5px;}
+
+  /* disclosures / footer */
+  .disclosures{
+    background:var(--paper-raised);
+    border-top:1px solid var(--rule);
+    padding:30px 0 60px;
+  }
+  .disclosures h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:10px;}
+  .disclosures p, .disclosures li{font-size:12px;color:var(--ink-soft);line-height:1.6;}
+  .disclosures ol{padding-left:18px;margin:0 0 16px;}
+  .practice-note{
+    background:var(--brass-bg);
+    border:1px solid var(--brass);
+    padding:16px 20px;
+    font-size:13px;
+    color:#5B4620;
+    margin-bottom:26px;
+  }
+  .practice-note strong{color:var(--brass);}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ============ TOC ============ -->
+  <nav class="toc">
+    <div class="firm">Equity Research (Practice Model)</div>
+    <div class="desk">Financials — Diversified Banks</div>
+    <a href="#summary"><span class="tnum">01</span>Investment Summary</a>
+    <a href="#overview"><span class="tnum">02</span>Company Overview</a>
+    <a href="#industry"><span class="tnum">03</span>Industry &amp; Positioning</a>
+    <a href="#thesis"><span class="tnum">04</span>Investment Thesis</a>
+    <a href="#financials"><span class="tnum">05</span>Financial Summary</a>
+    <a href="#valuation"><span class="tnum">06</span>Valuation</a>
+    <a href="#risks"><span class="tnum">07</span>Risks</a>
+    <a href="#catalysts"><span class="tnum">08</span>Catalysts</a>
+    <a href="#disclosures"><span class="tnum">09</span>Sources &amp; Disclosures</a>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <div class="masthead">
+      <div class="eyebrow">Initiation of Coverage · North America Banks</div>
+      <h1>JPMorgan Chase &amp; Co.</h1>
+      <div class="sub">NYSE: JPM &nbsp;·&nbsp; Diversified Banks &nbsp;·&nbsp; Report date: July 3, 2026</div>
+
+      <div class="tombstone">
+        <div class="stat">
+          <div class="label">Rating</div>
+          <div class="rating-badge">OVERWEIGHT</div>
+        </div>
+        <div class="stat">
+          <div class="label">Price Target</div>
+          <div class="value">$350</div>
+        </div>
+        <div class="stat">
+          <div class="label">Current Price</div>
+          <div class="value">$334.80</div>
+        </div>
+        <div class="stat">
+          <div class="label">Implied Upside</div>
+          <div class="value">+4.5%</div>
+        </div>
+        <div class="stat">
+          <div class="label">Div. Yield</div>
+          <div class="value">1.8%</div>
+        </div>
+        <div class="stat">
+          <div class="label">Market Cap</div>
+          <div class="value">$896B</div>
+        </div>
+      </div>
+
+      <div class="range-wrap">
+        <div class="range-label">52-Week Range — Current Price vs. Price Target</div>
+        <svg class="range" viewBox="0 0 900 54" preserveAspectRatio="none">
+          <!-- base line -->
+          <line x1="10" y1="30" x2="890" y2="30" stroke="#3E4B63" stroke-width="2"/>
+          <!-- low / high ticks -->
+          <line x1="10" y1="20" x2="10" y2="40" stroke="#93A2BB" stroke-width="2"/>
+          <line x1="890" y1="20" x2="890" y2="40" stroke="#93A2BB" stroke-width="2"/>
+          <text x="10" y="14" fill="#93A2BB" font-family="IBM Plex Mono" font-size="11">$279.10</text>
+          <text x="855" y="14" fill="#93A2BB" font-family="IBM Plex Mono" font-size="11">$343.45</text>
+          <!-- current price marker (334.80 -> ~86.3% along range) -->
+          <circle cx="770" cy="30" r="7" fill="#FFFFFF" stroke="#8A6D3B" stroke-width="3"/>
+          <text x="746" y="50" fill="#EFEDE6" font-family="IBM Plex Mono" font-size="11">Now $334.80</text>
+          <!-- price target marker beyond current high, ~110% -->
+          <line x1="900" y1="18" x2="900" y2="42" stroke="#C9A66B" stroke-width="0" />
+          <polygon points="880,20 887,30 880,40" fill="#8A6D3B"/>
+          <text x="820" y="14" fill="#8A6D3B" font-family="IBM Plex Mono" font-size="11">PT $350 →</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- practice note -->
+      <div class="practice-note" style="margin-top:32px;">
+        <strong>How to use this page:</strong> This is a fully worked example so you can see the finished shape of an equity research report before building your own. The Q1 2026 figures are real (sourced from JPMorgan's earnings release and 10-Q). The FY2026–2028 projections and price target are simplified, illustrative assumptions built for practice — swap in your own model once you've built it in Excel, and this becomes a genuine resume piece.
+      </div>
+
+      <!-- ============ 01 SUMMARY ============ -->
+      <section id="summary">
+        <div class="sec-head"><span class="sec-num">01</span><h2>Investment Summary</h2></div>
+        <p class="lede">We initiate coverage of JPMorgan Chase (JPM) with an Overweight rating and a $350 price target, implying ~4.5% upside plus a ~1.8% dividend yield. JPM remains the highest-quality large-cap bank franchise in the U.S., posting a 23% ROTCE in Q1 2026 — well above peers — while trading at a valuation that only partially reflects that gap.</p>
+        <div class="summary-grid">
+          <div>
+            <p>JPMorgan delivered Q1 2026 net income of $16.5 billion and diluted EPS of $5.94, up 13% and 17% year-over-year respectively, beating consensus EPS estimates by roughly 9%. Revenue grew 10% to $50.5 billion (managed basis) as strength in Markets, investment banking fees, and asset management offset a moderating net interest income outlook. Management trimmed full-year 2026 NII guidance slightly to ~$103 billion, which triggered a short-term pullback in the stock despite the headline beat — a "beat and retreat" pattern common in bank earnings reactions.</p>
+            <p>The franchise's scale (​$4.9 trillion in assets, $2.7 trillion in deposits) and diversification across consumer banking, markets, investment banking, and asset management give it more levers to pull than mono-line peers when any single business slows. Capital return remains robust: $4.1 billion in dividends and $8.3 billion of net buybacks in the quarter alone, supported by a 14.3% CET1 ratio comfortably above regulatory minimums.</p>
+          </div>
+          <div class="callout-card">
+            <h3>Why Overweight</h3>
+            <ul>
+              <li>ROTCE of 23% is the highest among large-cap U.S. banks, justifying a premium multiple</li>
+              <li>Diversified revenue mix cushions against any single-segment slowdown</li>
+              <li>Fortress balance sheet (14.3% CET1) supports continued buybacks and dividend growth</li>
+              <li>Valuation has not fully re-rated to reflect the ROTCE premium versus peers</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 02 OVERVIEW ============ -->
+      <section id="overview">
+        <div class="sec-head"><span class="sec-num">02</span><h2>Company Overview</h2></div>
+        <p>JPMorgan Chase operates through three primary reporting segments plus a Corporate function. Each contributed meaningfully to Q1 2026 results:</p>
+        <div class="segments">
+          <div class="segment">
+            <div class="seg-name">Consumer &amp; Community Banking</div>
+            <div class="seg-metric">$5.0B</div>
+            <div class="seg-note">Net income, Q1 2026 · 32% ROE. Branch banking, credit cards, auto lending.</div>
+          </div>
+          <div class="segment">
+            <div class="seg-name">Commercial &amp; Investment Bank</div>
+            <div class="seg-metric">$9.0B</div>
+            <div class="seg-note">Net income, Q1 2026 · 21% ROE. Markets, M&amp;A advisory, underwriting, treasury services.</div>
+          </div>
+          <div class="segment">
+            <div class="seg-name">Asset &amp; Wealth Management</div>
+            <div class="seg-metric">$4.8T</div>
+            <div class="seg-note">Assets under management, up double digits YoY on net inflows and market appreciation.</div>
+          </div>
+        </div>
+        <p>The Commercial &amp; Investment Bank is the largest profit driver and the most cyclical, since Markets and investment banking fee revenue swing with trading volumes and deal activity. Consumer &amp; Community Banking is the most rate-sensitive segment through net interest income on deposits and card loans. This mix is the core reason JPMorgan's earnings have historically been more resilient through cycles than peers concentrated in a single business line.</p>
+      </section>
+
+      <!-- ============ 03 INDUSTRY ============ -->
+      <section id="industry">
+        <div class="sec-head"><span class="sec-num">03</span><h2>Industry &amp; Competitive Positioning</h2></div>
+        <p>Large-cap U.S. banks are navigating a "neutral-for-longer" rate environment: not the tailwind of rapid hikes, nor the relief of aggressive cuts. Loan growth is steady but unspectacular, credit costs are normalizing off recent lows, and Basel III capital-rule finalization remains an overhang on the group's capital planning. Against this backdrop, franchise quality and cost discipline separate the winners.</p>
+        <table>
+          <caption>Selected peer comparison — approximate, illustrative figures as of mid-2026. Verify current multiples before using in your own report.</caption>
+          <thead>
+            <tr><th>Company</th><th>Ticker</th><th>P/E (TTM)</th><th>P/TBV</th><th>ROTCE</th><th>Div. Yield</th></tr>
+          </thead>
+          <tbody>
+            <tr class="highlight"><td>JPMorgan Chase</td><td>JPM</td><td>16.0x</td><td>~3.1x</td><td>23%</td><td>1.8%</td></tr>
+            <tr><td>Bank of America</td><td>BAC</td><td>~12x</td><td>~1.6x</td><td>~14%</td><td>1.9%</td></tr>
+            <tr><td>Wells Fargo</td><td>WFC</td><td>~13x</td><td>~1.6x</td><td>~13%</td><td>2.1%</td></tr>
+            <tr><td>Citigroup</td><td>C</td><td>~11x</td><td>~1.0x</td><td>~9%</td><td>3.0%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Sources: company filings, Robinhood/StockAnalysis/Morningstar market data (June–July 2026). Peer figures are directional approximations — pull exact trailing multiples yourself for a live project.</p>
+        <p>JPMorgan trades at a clear premium P/E and P/TBV to peers, but that premium (roughly 1.3–1.6x peers on P/TBV) is arguably justified rather than expensive: its ROTCE is 60–150% higher than the peer set, meaning it converts each dollar of tangible equity into far more profit. Citigroup screens as the "value" name in the group given its ongoing turnaround and P/TBV near 1.0x, but carries more execution risk. Wells Fargo has re-rated since the Fed lifted its asset cap, and Bank of America is often described as a lower-multiple "junior varsity JPMorgan" with a similar business mix.</p>
+      </section>
+
+      <!-- ============ 04 THESIS ============ -->
+      <section id="thesis">
+        <div class="sec-head"><span class="sec-num">04</span><h2>Investment Thesis</h2></div>
+        <div class="thesis">
+          <div class="thesis-item">
+            <div class="thesis-num">1</div>
+            <div>
+              <h3>Best-in-class returns on capital fund a self-reinforcing buyback cycle</h3>
+              <p>At 23% ROTCE, JPMorgan generates capital faster than it can profitably redeploy into loan growth alone, which is why buybacks ($8.3B in Q1 2026 alone) have become a structural part of the capital return story. Continued buybacks reduce share count and support EPS growth even if net income growth moderates.</p>
+            </div>
+          </div>
+          <div class="thesis-item">
+            <div class="thesis-num">2</div>
+            <div>
+              <h3>Diversification dampens the "one bad segment" risk that hits mono-line peers</h3>
+              <p>When NII growth slows, as guided for 2026, Markets and investment banking fee income (up double digits in Q1 2026) can offset it. Peers more concentrated in traditional lending don't have the same offset.</p>
+            </div>
+          </div>
+          <div class="thesis-item">
+            <div class="thesis-num">3</div>
+            <div>
+              <h3>Fortress balance sheet provides optionality, not just safety</h3>
+              <p>A 14.3% CET1 ratio is well above requirements, giving management room to lean into opportunities — such as the Apple Card portfolio acquisition and data-center lending — that smaller or less-capitalized banks must pass on.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 05 FINANCIALS ============ -->
+      <section id="financials">
+        <div class="sec-head"><span class="sec-num">05</span><h2>Financial Summary</h2></div>
+        <table>
+          <caption>Actual (LTM through Q1 2026) vs. illustrative model projections. Replace 2026E–2028E with your own assumptions when you build the full model.</caption>
+          <thead>
+            <tr><th>($ in billions, except per-share)</th><th>LTM (Q1'26)</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Net revenue</td><td>$187.0</td><td>$194.0</td><td>$203.0</td><td>$212.0</td></tr>
+            <tr><td>Net interest income</td><td>~$96.0</td><td>$103.0</td><td>$107.0</td><td>$111.0</td></tr>
+            <tr><td>Noninterest expense</td><td>~$100.0</td><td>$105.0</td><td>$109.0</td><td>$113.0</td></tr>
+            <tr><td>Net income</td><td>$57.5</td><td>$62.0</td><td>$66.0</td><td>$70.0</td></tr>
+            <tr><td>Diluted EPS</td><td>$20.90</td><td>$23.50</td><td>$25.50</td><td>$27.50</td></tr>
+            <tr><td>ROTCE</td><td>23%</td><td>~22%</td><td>~21%</td><td>~21%</td></tr>
+            <tr><td>CET1 ratio</td><td>14.3%</td><td>~13.8%</td><td>~13.5%</td><td>~13.3%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">LTM figures sourced from Q1 2026 earnings release/10-Q and market data providers. 2026E–2028E are simplified illustrative projections (moderate NII growth off guidance, gradual expense growth, ~2%/yr share count reduction from buybacks) — not consensus estimates.</p>
+        <p>Two things to notice, since they're the kind of insight that separates a real analyst note from a data dump: first, ROTCE is expected to drift down slightly even as net income grows, because retained earnings and AOCI recovery are growing the tangible equity base faster than income in this simplified path — a real model would refine this with a more precise capital walk. Second, the CET1 ratio glides lower as buybacks and dividends outpace retained earnings growth, which is a deliberate, board-approved use of excess capital rather than a balance-sheet risk signal at these levels.</p>
+      </section>
+
+      <!-- ============ 06 VALUATION ============ -->
+      <section id="valuation">
+        <div class="sec-head"><span class="sec-num">06</span><h2>Valuation</h2></div>
+        <p>Banks are valued primarily on <strong>P/E</strong> and <strong>Price-to-Tangible-Book-Value (P/TBV)</strong> rather than a standard DCF, since a bank's balance sheet and cash flows don't map cleanly onto free-cash-flow models. We triangulate using both.</p>
+        <div class="val-grid">
+          <div class="val-box">
+            <h3>Method 1 — Price / Earnings</h3>
+            <p>Applying a 13.5x–14.5x multiple (near the upper end of JPM's historical range, reflecting its ROTCE premium) to 2027E EPS of $25.50:</p>
+            <div class="formula">13.5x × $25.50 = $344 &nbsp;|&nbsp; 14.5x × $25.50 = $370</div>
+          </div>
+          <div class="val-box">
+            <h3>Method 2 — Price / Tangible Book Value</h3>
+            <p>Growing current TBVPS of $108.87 at ~8%/yr to a 2027E TBVPS of ~$127, and applying a 2.6x–2.8x target multiple (consistent with JPM's premium ROTCE):</p>
+            <div class="formula">2.6x × $127 = $330 &nbsp;|&nbsp; 2.8x × $127 = $356</div>
+          </div>
+        </div>
+        <div class="pt-band">
+          <div>
+            <div class="cap">Blended 12-Month Price Target</div>
+            <div class="num">$350</div>
+          </div>
+          <div>
+            <div class="cap">Implied Upside from $334.80</div>
+            <div class="num">+4.5%</div>
+          </div>
+          <div>
+            <div class="cap">+ Dividend Yield</div>
+            <div class="num">1.8%</div>
+          </div>
+          <div>
+            <div class="cap">Total Expected Return</div>
+            <div class="num">~6%</div>
+          </div>
+        </div>
+        <p style="margin-top:18px;">This lands close to the actual sell-side consensus average target of roughly $344 (per market data as of early July 2026), which is a useful sanity check — if your model's output is wildly different from the Street, that's a signal to revisit your assumptions, not necessarily a sign you've found an edge.</p>
+      </section>
+
+      <!-- ============ 07 RISKS ============ -->
+      <section id="risks">
+        <div class="sec-head"><span class="sec-num">07</span><h2>Key Risks</h2></div>
+        <div class="risk-list">
+          <div class="risk"><div class="rtag">Regulatory</div><p>Basel III "endgame" capital rules remain unresolved; a stricter final version would raise capital requirements and could pressure buyback capacity.</p></div>
+          <div class="risk"><div class="rtag">Rate path</div><p>Full-year NII guidance was already trimmed once in 2026; further Fed cuts beyond expectations would pressure net interest income more than modeled.</p></div>
+          <div class="risk"><div class="rtag">Credit cycle</div><p>Card net charge-off rates are guided toward ~3.4% for 2026; a weaker labor market would push consumer credit costs higher than assumed here.</p></div>
+          <div class="risk"><div class="rtag">Succession</div><p>CEO Jamie Dimon's eventual succession is an active, closely watched process; leadership transition risk is real for a franchise this closely associated with one leader.</p></div>
+          <div class="risk"><div class="rtag">Competition</div><p>Private credit funds and non-bank lenders continue to take share in parts of commercial lending, a dynamic management has flagged directly.</p></div>
+        </div>
+      </section>
+
+      <!-- ============ 08 CATALYSTS ============ -->
+      <section id="catalysts">
+        <div class="sec-head"><span class="sec-num">08</span><h2>Catalysts &amp; Timeline</h2></div>
+        <div class="cat-list">
+          <div class="cat-item"><div class="cat-date">July 14, 2026</div><p>Q2 2026 earnings release — watch for any further revision to full-year NII and expense guidance.</p></div>
+          <div class="cat-item"><div class="cat-date">Ongoing, 2026</div><p>Progress and finalization of Basel III capital rules, which will shape the ceiling on future buybacks.</p></div>
+          <div class="cat-item"><div class="cat-date">Ongoing, 2026</div><p>CEO succession process developments; any formal announcement would likely move the stock.</p></div>
+          <div class="cat-item"><div class="cat-date">Quarterly</div><p>Capital return updates — dividend changes and buyback pace disclosed each quarter alongside earnings.</p></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ DISCLOSURES ============ -->
+<div class="disclosures">
+  <div class="container">
+    <h3>Sources</h3>
+    <ol>
+      <li>JPMorgan Chase & Co., Q1 2026 Earnings Release &amp; Financial Supplement, Form 8-K (April 14, 2026), filed with the SEC.</li>
+      <li>JPMorgan Chase & Co., Q1 2026 Form 10-Q.</li>
+      <li>Q1 2026 earnings call transcript (April 14, 2026).</li>
+      <li>Market data (price, market cap, P/E, 52-week range, analyst price targets): Robinhood, StockAnalysis.com, ChartMill, MarketBeat — accessed early July 2026.</li>
+      <li>Peer commentary: Morningstar sector note on Q1 2026 big bank earnings (April 13, 2026); Motley Fool / Yahoo Finance bank comparison pieces (July 2026).</li>
+    </ol>
+    <h3>Disclosures &amp; Limitations</h3>
+    <p>This report is a student/practice project created for portfolio and resume purposes. It is not investment research produced by a licensed analyst, is not affiliated with or endorsed by JPMorgan Chase & Co., and should not be used to make actual investment decisions. The FY2026–2028 projections, price target, and peer multiples are simplified illustrative estimates built to demonstrate methodology, not verified consensus figures — always rebuild the model with your own primary-source numbers before presenting this as original analytical work.</p>
+  </div>
+</div>
+
+</body>
+</html>
